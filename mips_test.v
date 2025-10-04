@@ -5,7 +5,7 @@ module Mips_SingleCycleProcessor_tb();
   reg rst;
   wire [31:0] pc, instr, alu_result, read_data1, read_data2, mem_read_data, final_write_data;
 
-  // Instantiate the processor
+  
   Mips_SingleCycleProcessor uut (
     .clk(clk),
     .rst(rst),
@@ -18,10 +18,7 @@ module Mips_SingleCycleProcessor_tb();
     .final_write_data(final_write_data)
   );
 
-  // Clock Generation
   always #5 clk = ~clk;
-
-  // Initialize Instruction Memory with some basic operations
   initial begin
     clk = 0;
     rst = 1;
@@ -36,11 +33,9 @@ module Mips_SingleCycleProcessor_tb();
     $finish;
   end
 
-  // Preload Instruction Memory with instructions
+ 
   initial begin
-    // Load the instructions manually into IM memory array
-    // Format: mem[addr] = 8-bit hex
-    // Example instruction: add $t1, $t2, $t3  => opcode: 000000 rs=01010 rt=01011 rd=01001 shamt=00000 funct=100000
+    // add $t1, $t2, $t3  => opcode: 000000 rs=01010 rt=01011 rd=01001 shamt=00000 funct=100000
     uut.dp.im_inst.mem[0] = 8'h01;  // MSB
     uut.dp.im_inst.mem[1] = 8'h4B;
     uut.dp.im_inst.mem[2] = 8'h48;
@@ -71,7 +66,7 @@ module Mips_SingleCycleProcessor_tb();
     uut.dp.im_inst.mem[19] = 8'h01;
   end
 
-  // Optionally preload Register File
+ 
   initial begin
     // Example: Set $t2 = 5, $t3 = 3
     uut.dp.rf.regfile[10] = 32'd5;  // $t2
@@ -79,7 +74,6 @@ module Mips_SingleCycleProcessor_tb();
     uut.dp.rf.regfile[9]  = 32'd100; // $t1 for address offset
   end
 
-  // Optionally preload Data Memory
   initial begin
     uut.dp.dm.mem[104] = 8'h00;
     uut.dp.dm.mem[105] = 8'h00;
